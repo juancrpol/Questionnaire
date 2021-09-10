@@ -1,0 +1,25 @@
+Which of the following tool is used to generate API documentation in HTML format from doc comments in source code?, a. javap tool, b. javaw command, c. Javadoc tool, d. javah command, c, 1
+Which of the following for loop declaration is not valid?, a. for ( int i = 99; i >= 0; i / 9 ), b. for ( int i = 7; i <= 77; i += 7 ), c. for ( int i = 20; i >= 2; - -i ), d. for ( int i = 2; i <= 20; i = 2* i ), a, 1
+Which method of the Class.class is used to determine the name of a class represented by the class object as a String?, a. getClass(), b. intern(), c. getName(), d. toString(), c, 1
+What is the use of \w in regex?, a. Used for a whitespace character, b. Used for a non-whitespace character, c. Used for a word character, d. Used for a non-word character, c, 1
+Which keyword is used for accessing the features of a package?, a. package, b. import, c. extends, d. export, b, 1
+Which package contains the Random class?, a. java.util package, b. java.lang package, c. java.awt package, d. java.io package, a, 2
+Which of the following is a mutable class in java?, a. java.lang.String, b. java.lang.Byte, c. java.lang.Short, d. java.lang.StringBuilder, d, 2
+How many threads can be executed at a time?, a. Only one thread, b. Multiple threads, c. Only main (main() method) thread, d. Two threads, b, 2
+Which of the following is not a Java features?, a. Dynamic, b. Architecture Neutral, c. Use of pointers, d. Object-oriented, c, 2
+_____ is used to find and fix bugs in the Java programs, a. JVM, b. JRE, c. JDK, d. JDB, d, 2
+Which of the following option leads to the portability and security of Java?, a. Bytecode is executed by JVM, b. The applet makes the Java code secure and portable, c. Use of exception handling, d. Dynamic binding between objects, a, 3
+Which option is false about the final keyword?, a. A final method cannot be overridden in its subclasses, b. A final class cannot be extended, c. A final class cannot extend other classes, d. A final method can be inherited, c, 3
+Which of these classes are the direct subclasses of the Throwable class?, a. RuntimeException and Error class, b. Exception and VirtualMachineError class, c. Error and Exception class, d. IOException and VirtualMachineError class, c, 3
+In which process a local variable has the same name as one of the instance variables?, a. Serialization, b. Variable Shadowing, c. Abstraction, d. Multi-threading, b, 3
+The \u0021 article referred to as a, a. Unicode escape sequence, b. Octal escape, c. Hexadecimal, d. Line feed, a, 3
+Which of the following is true about the anonymous inner class?, a. It has only methods, b. Objects can't be created, c. It has a fixed class name, d. It has no class name, d, 4
+An interface with no fields or methods is known as a ______, a. Runnable Interface, b. Marker Interface, c. Abstract Interface, d. CharSequence Interface, b, 4
+In which memory a String is stored when we create a string using new operator?, a. Stack, b. String memory, c. Heap memory, d. Random storage space, c, 4
+What is the use of the intern() method?, a. It returns the existing string from memory, b. It creates a new string in the database, c. It modifies the existing string in the database, d. None of the above, a, 4
+What do you mean by nameless objects?, a. An object created by using the new keyword, b. An object of a superclass created in the subclass, c. An object without having any name but having a reference, d. An object that has no reference, d, 4
+If three threads trying to share a single object at the same time which condition will arise in this scenario?, a. Time-Lapse, b. Critical situation, c. Race condition, d. Recursion, c, 5
+Which of the following modifiers can be used for a variable so that it can be accessed by any thread or a part of a program?, a. global, b. transient, c. volatile, d. default, c, 5
+In character stream I/O a single read/write operation performs _____, a. Two bytes read/write at a time, b. Eight bytes read/write at a time, c. One byte read/write at a time, d. Five bytes read/ write at a time, a, 5
+Which of the following is an immediate subclass of the Panel class?, a. Applet class, b. Window class, c. Frame class, d. Dialog class, a, 5
+Which of the following is false?, a. The rt.jar stands for the runtime jar, b. It is an optional jar file, c. It contains all the compiled class files, d. All the classes available in rt.jar is known to the JVM, b, 5
