@@ -13,6 +13,7 @@ public class Main {
     private static Scanner SCAN;
     private static Questions questions;
     private static Player player;
+    private static File file;
 
     public static void main(String[] args) throws FileNotFoundException {
         printHeader();
@@ -21,14 +22,6 @@ public class Main {
     }
 
     private static void playQuestionnaire() {
-        player = new Player();
-
-        try {
-            player = (Player) SerializationUtils.deserialize("player.data");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
         boolean isFinished = false;
         while (!isFinished) {
             switch (player.getRound()) {
@@ -82,19 +75,19 @@ public class Main {
             player.setPoints(round == 5 ? 0 : player.getPoints() + 1000);
             player.setRound(round == 5 ? 1 : round + 1);
             System.out.println(round == 5 ? "Congrats! You win QUESTIONNAIRE." :
-                    "Correct! you have " + player.getPoints() + " points.\n");
+                    "Correct! You have " + player.getPoints() + " points.\n");
             try {
-                SerializationUtils.serialize(player, "player.data");
+                SerializationUtils.serialize(player, file.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return round == 5;
         } else {
-            System.out.println("Wrong! your final score is " + player.getPoints() + " points.");
+            System.out.println("Wrong! Your final score is " + player.getPoints() + " points.");
             player.setPoints(0);
             player.setRound(1);
             try {
-                SerializationUtils.serialize(player, "player.data");
+                SerializationUtils.serialize(player, file.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,8 +100,7 @@ public class Main {
             System.out.print("Enter your answer (0 to exit): ");
             SCAN = new Scanner(System.in);
             String answer = SCAN.next();
-            if (answer.equals("a") || answer.equals("b") || answer.equals("c")
-                    || answer.equals("d") || answer.equals("0")) {
+            if (answer.matches("[a-d0]")) {
                 return answer;
             }
         }
@@ -156,7 +148,24 @@ public class Main {
         header += "+--------------------------+\n";
         header += "| Created by: Juan Carlos. |\n";
         header += "+--------------------------+\n";
-
         System.out.println(header);
+
+        file = new File("player.data");
+        player = new Player();
+
+        if (file.exists() && !file.isDirectory()) {
+            // do something
+            try {
+                player = (Player) SerializationUtils.deserialize(file.getName());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                SerializationUtils.serialize(player, file.getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
