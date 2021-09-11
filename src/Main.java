@@ -1,12 +1,8 @@
 import utils.SerializationUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-import java.util.Scanner;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Main {
 
@@ -72,6 +68,15 @@ public class Main {
         }
 
         if (userAnswer.equals(correctAnswer)) {
+            if (round == 5) {
+                try {
+                    player.setPoints(player.getPoints() + 1000);
+                    writeRecord(5);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             player.setPoints(round == 5 ? 0 : player.getPoints() + 1000);
             player.setRound(round == 5 ? 1 : round + 1);
             System.out.println(round == 5 ? "Congrats! You win QUESTIONNAIRE." :
@@ -84,15 +89,25 @@ public class Main {
             return round == 5;
         } else {
             System.out.println("Wrong! Your final score is " + player.getPoints() + " points.");
-            player.setPoints(0);
-            player.setRound(1);
             try {
+                writeRecord(round);
+                player.setPoints(0);
+                player.setRound(1);
                 SerializationUtils.serialize(player, file.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return true;
         }
+    }
+
+    private static void writeRecord(int round) throws IOException {
+        FileWriter writer = new FileWriter("record.txt", true);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        writer.write(formatter.format(date) + " points: " + player.getPoints() + " round: " + round +
+                (player.getPoints() == 5000 ? " (Winner)" : "") + "\n");
+        writer.close();
     }
 
     private static String printAnswer() {
@@ -107,11 +122,13 @@ public class Main {
     }
 
     private static void printQuestion(ArrayList<String> question) {
-        System.out.println(question.get(0));
-        System.out.println(question.get(1));
-        System.out.println(question.get(2));
-        System.out.println(question.get(3));
-        System.out.println(question.get(4));
+        String printQuestion = "";
+        printQuestion += question.get(0) + "\n";
+        printQuestion += question.get(1) + "\n";
+        printQuestion += question.get(2) + "\n";
+        printQuestion += question.get(3) + "\n";
+        printQuestion += question.get(4);
+        System.out.println(printQuestion);
     }
 
     private static ArrayList<String> selectQuestion(int round) {
@@ -150,9 +167,19 @@ public class Main {
         header += "+--------------------------+\n";
         System.out.println(header);
 
+        String option;
+        do {
+            System.out.println("Press 0 to see record or enter to continue...");
+            SCAN = new Scanner(System.in);
+            option = SCAN.nextLine();
+            if (option.equals("0")) {
+                readRecord();
+            }
+        } while (option.equals("0"));
+
+
         file = new File("player.data");
         player = new Player();
-
         if (file.exists() && !file.isDirectory()) {
             // do something
             try {
@@ -166,6 +193,33 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void readRecord() {
+        file = new File("record.txt");
+        if (file.exists() && !file.isDirectory()) {
+            String header = "";
+            header += "+--------+\n";
+            header += "| RECORD |\n";
+            header += "+--------+";
+            System.out.println(header);
+
+            try {
+                FileReader reader = new FileReader(file.getName());
+                int character;
+
+                while ((character = reader.read()) != -1) {
+                    System.out.print((char) character);
+                }
+                System.out.println();
+                reader.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Record doesn't exist.\n");
         }
     }
 }
