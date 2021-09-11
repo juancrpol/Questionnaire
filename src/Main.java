@@ -4,6 +4,9 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Class that sets the questionnaire game.
+ */
 public class Main {
 
     private static Scanner SCAN;
@@ -12,11 +15,75 @@ public class Main {
     private static File file;
 
     public static void main(String[] args) throws FileNotFoundException {
-        printHeader();
+        initializeGame();
         setQuestions();
         playQuestionnaire();
     }
 
+    /**
+     * Method that creates a new player and loads or saves their status, depending on their situation.
+     */
+    private static void initializeGame() {
+        String header = "";
+        header += "+--------------------------+\n";
+        header += "| WELCOME TO QUESTIONNAIRE |\n";
+        header += "+--------------------------+\n";
+        header += "| Created by: Juan Carlos. |\n";
+        header += "+--------------------------+\n";
+        System.out.println(header);
+
+        /*  Print the record or continue with the questions. */
+        String option;
+        do {
+            System.out.println("Press 0 to see record or enter to continue...");
+            SCAN = new Scanner(System.in);
+            option = SCAN.nextLine();
+            if (option.equals("0")) {
+                readRecord();
+            }
+        } while (option.equals("0"));
+
+        /* Save or load a player's data. */
+        file = new File("Player.data");
+        player = new Player();
+        if (file.exists() && !file.isDirectory()) {
+            // do something
+            try {
+                player = (Player) SerializationUtils.deserialize(file.getName());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                SerializationUtils.serialize(player, file.getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Method that loads all the questions of the game from a text file.
+     *
+     * @throws FileNotFoundException
+     */
+    private static void setQuestions() throws FileNotFoundException {
+        SCAN = new Scanner(new File("Questions.txt"));
+        questions = new Questions();
+
+        while (SCAN.hasNextLine()) {
+            ArrayList<String> line = new ArrayList<>();
+            final String nextLine = SCAN.nextLine();
+            final String[] items = nextLine.split(", ");
+
+            Collections.addAll(line, items);
+            questions.setQuestions(line);
+        }
+    }
+
+    /**
+     * Method that chooses a question depending on the round.
+     */
     private static void playQuestionnaire() {
         boolean isFinished = false;
         while (!isFinished) {
@@ -45,6 +112,11 @@ public class Main {
         }
     }
 
+    /**
+     * Print the header of every round.
+     *
+     * @param round of the game.
+     */
     private static void printHeaderRound(int round) {
         String headerRound = "";
         headerRound += "+---------+\n";
@@ -53,20 +125,30 @@ public class Main {
         System.out.println(headerRound);
     }
 
+    /**
+     * Method that compares the user's answer with the correct answer.
+     *
+     * @param round of the game.
+     * @return true if the  game ends otherwise false.
+     */
     private static boolean playRound(int round) {
         String correctAnswer;
         String userAnswer;
         ArrayList<String> question;
 
+        /* Select user answer and correct answer. */
         question = selectQuestion(round);
         printQuestion(question);
         correctAnswer = question.get(5);
         userAnswer = printAnswer();
 
+        /* Exit game. */
         if (userAnswer.equals("0")) {
+            System.out.println("Saving state... Goodbye!");
             return true;
         }
 
+        /* Compare answers. */
         if (userAnswer.equals(correctAnswer)) {
             if (round == 5) {
                 try {
@@ -101,36 +183,12 @@ public class Main {
         }
     }
 
-    private static void writeRecord(int round) throws IOException {
-        FileWriter writer = new FileWriter("record.txt", true);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        writer.write(formatter.format(date) + " points: " + player.getPoints() + " round: " + round +
-                (player.getPoints() == 5000 ? " (Winner)" : "") + "\n");
-        writer.close();
-    }
-
-    private static String printAnswer() {
-        while (true) {
-            System.out.print("Enter your answer (0 to exit): ");
-            SCAN = new Scanner(System.in);
-            String answer = SCAN.next();
-            if (answer.matches("[a-d0]")) {
-                return answer;
-            }
-        }
-    }
-
-    private static void printQuestion(ArrayList<String> question) {
-        String printQuestion = "";
-        printQuestion += question.get(0) + "\n";
-        printQuestion += question.get(1) + "\n";
-        printQuestion += question.get(2) + "\n";
-        printQuestion += question.get(3) + "\n";
-        printQuestion += question.get(4);
-        System.out.println(printQuestion);
-    }
-
+    /**
+     * Method that selects a random question, depending on the round (category).
+     *
+     * @param round of the game.
+     * @return a Question.
+     */
     private static ArrayList<String> selectQuestion(int round) {
         Random random = new Random();
         ArrayList<String> questionSelected;
@@ -144,60 +202,55 @@ public class Main {
         }
     }
 
-    private static void setQuestions() throws FileNotFoundException {
-        SCAN = new Scanner(new File("Questions.txt"));
-        questions = new Questions();
-
-        while (SCAN.hasNextLine()) {
-            ArrayList<String> line = new ArrayList<>();
-            final String nextLine = SCAN.nextLine();
-            final String[] items = nextLine.split(", ");
-
-            Collections.addAll(line, items);
-            questions.setQuestions(line);
-        }
+    /**
+     * Print the body of the question.
+     *
+     * @param question about Java.
+     */
+    private static void printQuestion(ArrayList<String> question) {
+        String printQuestion = "";
+        printQuestion += question.get(0) + "\n";
+        printQuestion += question.get(1) + "\n";
+        printQuestion += question.get(2) + "\n";
+        printQuestion += question.get(3) + "\n";
+        printQuestion += question.get(4);
+        System.out.println(printQuestion);
     }
 
-    private static void printHeader() {
-        String header = "";
-        header += "+--------------------------+\n";
-        header += "| WELCOME TO QUESTIONNAIRE |\n";
-        header += "+--------------------------+\n";
-        header += "| Created by: Juan Carlos. |\n";
-        header += "+--------------------------+\n";
-        System.out.println(header);
-
-        String option;
-        do {
-            System.out.println("Press 0 to see record or enter to continue...");
+    /**
+     * @return the user answer.
+     */
+    private static String printAnswer() {
+        while (true) {
+            System.out.print("Enter your answer (0 to exit): ");
             SCAN = new Scanner(System.in);
-            option = SCAN.nextLine();
-            if (option.equals("0")) {
-                readRecord();
-            }
-        } while (option.equals("0"));
-
-
-        file = new File("player.data");
-        player = new Player();
-        if (file.exists() && !file.isDirectory()) {
-            // do something
-            try {
-                player = (Player) SerializationUtils.deserialize(file.getName());
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                SerializationUtils.serialize(player, file.getName());
-            } catch (IOException e) {
-                e.printStackTrace();
+            String answer = SCAN.next();
+            if (answer.matches("[a-d0]")) {
+                return answer;
             }
         }
     }
 
+    /**
+     * Save the game record.
+     *
+     * @param round of the game.
+     * @throws IOException
+     */
+    private static void writeRecord(int round) throws IOException {
+        FileWriter writer = new FileWriter("Record.txt", true);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        writer.write(formatter.format(date) + " points: " + player.getPoints() + " round: " + round +
+                (player.getPoints() == 5000 ? " (Winner)" : "") + "\n");
+        writer.close();
+    }
+
+    /**
+     * Read the game record if exists.
+     */
     private static void readRecord() {
-        file = new File("record.txt");
+        file = new File("Record.txt");
         if (file.exists() && !file.isDirectory()) {
             String header = "";
             header += "+--------+\n";

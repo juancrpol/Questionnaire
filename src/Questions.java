@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Class that sets the game questions.
+ */
 public class Questions {
     private ArrayList<ArrayList<String>> questions;
 
@@ -7,6 +10,7 @@ public class Questions {
         questions = new ArrayList<>();
     }
 
+    /* Getters a Setters. */
     public void setQuestions(ArrayList<String> questions) {
         this.questions.add(questions);
     }
@@ -15,6 +19,11 @@ public class Questions {
         return questions;
     }
 
+    /**
+     * Allows printing tests.
+     *
+     * @return an organized string with all the questions.
+     */
     @Override
     public String toString() {
         StringBuilder questionsString = new StringBuilder();

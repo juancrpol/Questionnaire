@@ -1,4 +1,0 @@
-10/09/2021 20:08:19 points: 0 round: 1
-10/09/2021 20:09:15 points: 5000 round: 5 (Winner)
-11/09/2021 09:24:42 points: 4000 round: 5
-11/09/2021 09:25:22 points: 1000 round: 2
