@@ -1,9 +1,10 @@
 # 🎲 QUESTIONNAIRE 🎲
 ---------------------
-## _Java Game_
+## 🎮 _Java Game_ 🎮
+![Java Logo](images/logo.png)
 
-Questionnaire es un juego de preguntas con multiples respuestas relacionadas con 
-el lenguaje de programacion Java.
+Questionnaire es un juego de preguntas con múltiples respuestas relacionadas con 
+el lenguaje de programación Java.
 
 ## 📝 Caracteristicas 📝
 ------------------------
@@ -11,16 +12,16 @@ el lenguaje de programacion Java.
 - Guarda el estado de un jugador si decide salir antes de contestar la pregunta.
 - Guarda el historial de juego del jugador.
 
-Questionnaire es un juego basado en el lenguaje de programacion Java y diseñado
+Questionnaire es un juego basado en el lenguaje de programación Java y diseñado
 en el entorno de desarrollo integrado IntelliJ IDEA Community Edition.
 
 Un juego creado por  [@juancoz](https://twitter.com/juancoz).
 
-## 📀 Instalacion 📀
+## 📀 Instalación 📀
 --------------
 
-[x] *Requiere de un IDE que soporte Java (desarrollado con JDK 16).*
-[ ] *No requiere de datos para guardar el historial del jugador.*
+- [x] *Requiere de un IDE que soporte Java (desarrollado con JDK 16).*
+- [ ] *No requiere de una base datos para guardar el historial del jugador.*
 
 ## 🗃️ Archivos 🗃️️ 
 -----------
