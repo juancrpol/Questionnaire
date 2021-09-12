@@ -196,7 +196,7 @@ public class Main {
         Random random = new Random();
         ArrayList<String> questionSelected;
         while (true) {
-            int questionNumber = random.nextInt(25);
+            int questionNumber = random.nextInt(36);
             questionSelected = questions.getQuestions().get(questionNumber);
             int category = Integer.parseInt(questionSelected.get(6));
             if (category == round) {
@@ -227,7 +227,7 @@ public class Main {
         while (true) {
             System.out.print("Enter your answer (0 to exit): ");
             SCAN = new Scanner(System.in);
-            String answer = SCAN.next();
+            String answer = SCAN.nextLine();
             if (answer.matches("[a-d0]")) {
                 return answer;
             }
